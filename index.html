@@ -1,21 +1,37 @@
-<div style="max-width:400px;margin:auto;font-family:Arial;text-align:center">
+<div style="max-width:420px;margin:auto;font-family:Arial;text-align:center">
 
-  <h1 style="color:#111">Cleaner Bets 📊</h1>
+  <h1>Cleaner Bets 📊</h1>
 
-  <div style="background:#f4f4f4;padding:15px;border-radius:10px;margin-bottom:10px">
-    <h2 id="profit" style="color:green">0 UGX</h2>
-    <p>Current Profit</p>
+  <div style="background:#f4f4f4;padding:10px;margin:10px;border-radius:10px">
+    <h2 id="profit">0 UGX</h2>
+    <p>Total Profit</p>
   </div>
 
-  <button onclick="win()" style="padding:10px;margin:5px;background:green;color:white;border:none;border-radius:8px">+5000 Win</button>
+  <div style="display:flex;justify-content:space-around;margin:10px">
 
-  <button onclick="loss()" style="padding:10px;margin:5px;background:red;color:white;border:none;border-radius:8px">-5000 Loss</button>
+    <div>
+      <h3 id="wins">0</h3>
+      <p>Wins</p>
+    </div>
 
-  <button onclick="reset()" style="padding:10px;margin:5px;background:black;color:white;border:none;border-radius:8px">Reset</button>
+    <div>
+      <h3 id="losses">0</h3>
+      <p>Losses</p>
+    </div>
+
+  </div>
+
+  <div>
+    <p id="winrate">Win Rate: 0%</p>
+  </div>
+
+  <button onclick="win()">+5000 Win</button>
+  <button onclick="loss()">-5000 Loss</button>
+  <button onclick="reset()">Reset</button>
 
   <hr>
 
-  <h3>Performance</h3>
+  <h3>Performance Chart</h3>
   <canvas id="chart" width="300" height="150"></canvas>
 
 </div>
