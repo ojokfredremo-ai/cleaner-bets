@@ -14,54 +14,43 @@ let losses = localStorage.getItem("losses")
   ? parseInt(localStorage.getItem("losses"))
   : 0;
 
-document.getElementById("profit").innerText = profit;
+function updateUI() {
+  document.getElementById("profit").innerText = profit;
+  document.getElementById("wins").innerText = wins;
+  document.getElementById("losses").innerText = losses;
 
-function save() {
+  let winrate = wins + losses === 0 ? 0 : Math.round((wins / (wins + losses)) * 100);
+
+  document.getElementById("winrate").innerText = "Win Rate: " + winrate + "%";
+
   localStorage.setItem("profit", profit);
   localStorage.setItem("history", JSON.stringify(history));
   localStorage.setItem("wins", wins);
   localStorage.setItem("losses", losses);
-  drawChart();
-}
 
-function notify(msg) {
-  alert(msg);
+  drawChart();
 }
 
 function win() {
   profit += 5000;
-  wins += 1;
-
+  wins++;
   history.push(profit);
-
-  document.getElementById("profit").innerText = profit;
-
-  save();
-  notify("✔ Win +5000 UGX");
+  updateUI();
 }
 
 function loss() {
   profit -= 5000;
-  losses += 1;
-
+  losses++;
   history.push(profit);
-
-  document.getElementById("profit").innerText = profit;
-
-  save();
-  notify("✖ Loss -5000 UGX");
+  updateUI();
 }
 
 function reset() {
   profit = 0;
-  history = [];
   wins = 0;
   losses = 0;
-
-  document.getElementById("profit").innerText = profit;
-
-  save();
-  notify("System reset complete");
+  history = [];
+  updateUI();
 }
 
 function drawChart() {
@@ -69,7 +58,6 @@ function drawChart() {
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.beginPath();
@@ -83,4 +71,4 @@ function drawChart() {
   ctx.stroke();
 }
 
-drawChart();
+updateUI();
