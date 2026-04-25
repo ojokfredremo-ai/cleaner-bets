@@ -2,10 +2,6 @@ let profit = localStorage.getItem("profit")
   ? parseInt(localStorage.getItem("profit"))
   : 0;
 
-let history = localStorage.getItem("history")
-  ? JSON.parse(localStorage.getItem("history"))
-  : [];
-
 let wins = localStorage.getItem("wins")
   ? parseInt(localStorage.getItem("wins"))
   : 0;
@@ -26,27 +22,22 @@ function updateUI() {
   document.getElementById("winrate").innerText =
     "Win Rate: " + winrate + "%";
 
-  updateInsight(winrate);
+  updateAI(winrate);
 
   localStorage.setItem("profit", profit);
-  localStorage.setItem("history", JSON.stringify(history));
   localStorage.setItem("wins", wins);
   localStorage.setItem("losses", losses);
-
-  drawChart();
 }
 
 function win() {
   profit += 5000;
   wins++;
-  history.push(profit);
   updateUI();
 }
 
 function loss() {
   profit -= 5000;
   losses++;
-  history.push(profit);
   updateUI();
 }
 
@@ -54,41 +45,72 @@ function reset() {
   profit = 0;
   wins = 0;
   losses = 0;
-  history = [];
   updateUI();
 }
 
-function updateInsight(winrate) {
-  let msg = "";
+//
+// 🤖 AI ENGINE (SMART LOGIC LAYER)
+//
+function aiConfidence(winrate) {
+  // base AI scoring model (simple but effective logic)
 
-  if (wins + losses === 0) {
-    msg = "Start tracking your bets 📊";
-  } else if (winrate >= 70) {
-    msg = "🔥 Strong performance. Stay disciplined.";
-  } else if (winrate >= 50) {
-    msg = "📊 Average results. Improve selections.";
-  } else {
-    msg = "⚠️ High risk pattern. Be careful.";
-  }
+  let base = 50;
 
-  document.getElementById("insight").innerText = msg;
+  // performance influence
+  if (winrate > 70) base += 30;
+  else if (winrate > 50) base += 15;
+  else if (winrate < 40) base -= 20;
+
+  // randomness factor (simulating real AI uncertainty)
+  let noise = Math.floor(Math.random() * 10);
+
+  let confidence = base + noise;
+
+  if (confidence > 95) confidence = 95;
+  if (confidence < 10) confidence = 10;
+
+  return confidence;
 }
 
-function drawChart() {
-  const canvas = document.getElementById("chart");
-  const ctx = canvas.getContext("2d");
+function riskLevel(confidence) {
+  if (confidence >= 75) return "🟢 LOW RISK";
+  if (confidence >= 50) return "🟡 MEDIUM RISK";
+  return "🔴 HIGH RISK";
+}
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+function updateAI(winrate) {
+  let confidence = aiConfidence(winrate);
+  let risk = riskLevel(confidence);
 
-  ctx.beginPath();
-  ctx.moveTo(0, 100);
+  let message = "";
 
-  history.forEach((value, i) => {
-    ctx.lineTo(i * 15, 100 - value / 1000);
-  });
+  if (confidence >= 75) {
+    message = "🔥 AI: Strong bet conditions detected";
+  } else if (confidence >= 50) {
+    message = "📊 AI: Moderate opportunity, be careful";
+  } else {
+    message = "⚠️ AI: High risk — avoid or reduce stake";
+  }
 
-  ctx.strokeStyle = "green";
-  ctx.stroke();
+  // create or update AI panel
+  let aiBox = document.getElementById("aiBox");
+
+  if (!aiBox) {
+    aiBox = document.createElement("div");
+    aiBox.id = "aiBox";
+    aiBox.style.margin = "10px";
+    aiBox.style.padding = "10px";
+    aiBox.style.background = "#f4f4f4";
+    aiBox.style.borderRadius = "10px";
+    document.body.appendChild(aiBox);
+  }
+
+  aiBox.innerHTML = `
+    <h3>🤖 AI Prediction Engine</h3>
+    <p><b>Confidence:</b> ${confidence}%</p>
+    <p><b>Risk:</b> ${risk}</p>
+    <p>${message}</p>
+  `;
 }
 
 updateUI();
