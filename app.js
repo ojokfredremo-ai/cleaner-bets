@@ -14,11 +14,16 @@ function save() {
   drawChart();
 }
 
+function notify(msg) {
+  alert(msg);
+}
+
 function win() {
   profit += 5000;
   history.push(profit);
   document.getElementById("profit").innerText = profit;
   save();
+  notify("✔ Win added +5000 UGX");
 }
 
 function loss() {
@@ -26,6 +31,7 @@ function loss() {
   history.push(profit);
   document.getElementById("profit").innerText = profit;
   save();
+  notify("✖ Loss recorded -5000 UGX");
 }
 
 function reset() {
@@ -33,6 +39,7 @@ function reset() {
   history = [];
   document.getElementById("profit").innerText = profit;
   save();
+  notify("Reset successful");
 }
 
 function drawChart() {
@@ -49,7 +56,7 @@ function drawChart() {
     ctx.lineTo(i * 20, 100 - value / 1000);
   });
 
-  ctx.strokeStyle = "green";
+  ctx.strokeStyle = "#22c55e";
   ctx.stroke();
 }
 
