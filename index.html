@@ -1,14 +1,23 @@
-<h1>Cleaner Bets 📊</h1>
+<div style="max-width:400px;margin:auto;font-family:Arial;text-align:center">
 
-<h2 id="profit">0 UGX</h2>
+  <h1 style="color:#111">Cleaner Bets 📊</h1>
 
-<button onclick="win()">+5000 Win</button>
-<button onclick="loss()">-5000 Loss</button>
-<button onclick="reset()">Reset</button>
+  <div style="background:#f4f4f4;padding:15px;border-radius:10px;margin-bottom:10px">
+    <h2 id="profit" style="color:green">0 UGX</h2>
+    <p>Current Profit</p>
+  </div>
 
-<hr>
+  <button onclick="win()" style="padding:10px;margin:5px;background:green;color:white;border:none;border-radius:8px">+5000 Win</button>
 
-<h3>Profit History</h3>
-<canvas id="chart" width="300" height="150"></canvas>
+  <button onclick="loss()" style="padding:10px;margin:5px;background:red;color:white;border:none;border-radius:8px">-5000 Loss</button>
+
+  <button onclick="reset()" style="padding:10px;margin:5px;background:black;color:white;border:none;border-radius:8px">Reset</button>
+
+  <hr>
+
+  <h3>Performance</h3>
+  <canvas id="chart" width="300" height="150"></canvas>
+
+</div>
 
 <script src="app.js"></script>
