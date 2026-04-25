@@ -19,9 +19,14 @@ function updateUI() {
   document.getElementById("wins").innerText = wins;
   document.getElementById("losses").innerText = losses;
 
-  let winrate = wins + losses === 0 ? 0 : Math.round((wins / (wins + losses)) * 100);
+  let winrate = wins + losses === 0
+    ? 0
+    : Math.round((wins / (wins + losses)) * 100);
 
-  document.getElementById("winrate").innerText = "Win Rate: " + winrate + "%";
+  document.getElementById("winrate").innerText =
+    "Win Rate: " + winrate + "%";
+
+  updateInsight(winrate);
 
   localStorage.setItem("profit", profit);
   localStorage.setItem("history", JSON.stringify(history));
@@ -53,11 +58,26 @@ function reset() {
   updateUI();
 }
 
+function updateInsight(winrate) {
+  let msg = "";
+
+  if (wins + losses === 0) {
+    msg = "Start tracking your bets 📊";
+  } else if (winrate >= 70) {
+    msg = "🔥 Strong performance. Stay disciplined.";
+  } else if (winrate >= 50) {
+    msg = "📊 Average results. Improve selections.";
+  } else {
+    msg = "⚠️ High risk pattern. Be careful.";
+  }
+
+  document.getElementById("insight").innerText = msg;
+}
+
 function drawChart() {
   const canvas = document.getElementById("chart");
-  if (!canvas) return;
-
   const ctx = canvas.getContext("2d");
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.beginPath();
@@ -67,7 +87,7 @@ function drawChart() {
     ctx.lineTo(i * 15, 100 - value / 1000);
   });
 
-  ctx.strokeStyle = "#22c55e";
+  ctx.strokeStyle = "green";
   ctx.stroke();
 }
 
